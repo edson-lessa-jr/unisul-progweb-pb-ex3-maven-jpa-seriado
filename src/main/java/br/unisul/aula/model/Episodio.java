@@ -1,9 +1,19 @@
 package br.unisul.aula.model;
 
+import javax.persistence.*;
+
+@Entity
+@TableGenerator(name = "seq_episodio", initialValue = 0, allocationSize = 1)
 public class Episodio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_episodio")
     private Long id;
+
     private String nome;
+    @Column(nullable = false)
     private int numero;
+    @ManyToOne
+    @JoinColumn(name = "temporada_id")
     private Temporada temporada;
 
     public Episodio() {

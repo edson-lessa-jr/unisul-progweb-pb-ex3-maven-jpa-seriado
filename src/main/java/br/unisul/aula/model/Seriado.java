@@ -4,10 +4,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@TableGenerator(name = "seq_seriado", initialValue = 0, allocationSize = 1)
 public class Seriado {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_seriado")
     private Long id;
     @Column(nullable = false)
     private String nome;

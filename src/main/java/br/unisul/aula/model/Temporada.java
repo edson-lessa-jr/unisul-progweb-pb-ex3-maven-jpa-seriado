@@ -4,10 +4,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@TableGenerator(name = "seq_temporada", initialValue = 0, allocationSize = 1)
 public class Temporada {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_temporada")
     private Long id;
     @Column(nullable = false)
     private int numero;
@@ -53,6 +54,14 @@ public class Temporada {
         this.dataLacamento = dataLacamento;
     }
 
+    public Seriado getSeriado() {
+        return seriado;
+    }
+
+    public void setSeriado(Seriado seriado) {
+        this.seriado = seriado;
+    }
+
     @Override
     public String toString() {
         return "Temporada{" +
@@ -60,6 +69,7 @@ public class Temporada {
                 ", numero=" + numero +
                 ", descricao='" + descricao + '\'' +
                 ", dataLacamento=" + dataLacamento +
+                ", seriado=" + seriado +
                 '}';
     }
 }
