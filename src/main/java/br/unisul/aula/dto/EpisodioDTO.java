@@ -1,15 +1,17 @@
 package br.unisul.aula.dto;
 
 import br.unisul.aula.model.Episodio;
+import br.unisul.aula.model.Temporada;
 
 import javax.persistence.Column;
 
 public class EpisodioDTO {
     private Long idEpisodio;
     private String nomeEpisodio;
-    private int numeroEpisodio;
-    private int numeroTemporada;
+    private Integer numeroEpisodio;
+    private Integer numeroTemporada;
     private String descricaoTemporada;
+    private Long seriadoId;
     private String nomeSeriado;
 
 
@@ -19,6 +21,7 @@ public class EpisodioDTO {
         this.numeroEpisodio = episodio.getNumero();
         this.numeroTemporada = episodio.getTemporada().getNumero();
         this.descricaoTemporada = episodio.getTemporada().getDescricao();
+        this.seriadoId = episodio.getTemporada().getId();
         this.nomeSeriado = episodio.getTemporada().getSeriado().getNome();
     }
     public EpisodioDTO() {
@@ -40,19 +43,19 @@ public class EpisodioDTO {
         this.nomeEpisodio = nomeEpisodio;
     }
 
-    public int getNumeroEpisodio() {
+    public Integer getNumeroEpisodio() {
         return numeroEpisodio;
     }
 
-    public void setNumeroEpisodio(int numeroEpisodio) {
+    public void setNumeroEpisodio(Integer numeroEpisodio) {
         this.numeroEpisodio = numeroEpisodio;
     }
 
-    public int getNumeroTemporada() {
+    public Integer getNumeroTemporada() {
         return numeroTemporada;
     }
 
-    public void setNumeroTemporada(int numeroTemporada) {
+    public void setNumeroTemporada(Integer numeroTemporada) {
         this.numeroTemporada = numeroTemporada;
     }
 
@@ -64,11 +67,40 @@ public class EpisodioDTO {
         this.descricaoTemporada = descricaoTemporada;
     }
 
+    public Long getSeriadoId() {
+        return seriadoId;
+    }
+
+    public void setSeriadoId(Long seriadoId) {
+        this.seriadoId = seriadoId;
+    }
+
     public String getNomeSeriado() {
         return nomeSeriado;
     }
 
     public void setNomeSeriado(String nomeSeriado) {
         this.nomeSeriado = nomeSeriado;
+    }
+
+    @Override
+    public String toString() {
+        return "EpisodioDTO{" +
+                "idEpisodio=" + idEpisodio +
+                ", nomeEpisodio='" + nomeEpisodio + '\'' +
+                ", numeroEpisodio=" + numeroEpisodio +
+                ", numeroTemporada=" + numeroTemporada +
+                ", descricaoTemporada='" + descricaoTemporada + '\'' +
+                ", nomeSeriado='" + nomeSeriado + '\'' +
+                '}';
+    }
+
+    public Episodio converterParaEpisodio(Temporada temporada) {
+        Episodio episodio = new Episodio();
+        episodio.setId(this.getIdEpisodio());
+        episodio.setNome(this.getNomeEpisodio());
+        episodio.setNumero(this.getNumeroEpisodio());
+        episodio.setTemporada(temporada);
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package br.unisul.aula.banco;
 import br.unisul.aula.model.Seriado;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class SeriadoImpl implements Banco<Seriado>{
@@ -15,9 +16,10 @@ public class SeriadoImpl implements Banco<Seriado>{
     }
 
     @Override
-    public void remove(Seriado seriado) {
+    public void remove(Long id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         entityManager.getTransaction().begin();
+        Seriado seriado = findById(id);
         entityManager.remove(seriado);
         entityManager.getTransaction().commit();
     }
@@ -42,6 +44,8 @@ public class SeriadoImpl implements Banco<Seriado>{
     @Override
     public Seriado findById(Long id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
-        return entityManager.getReference(Seriado.class, id);
+        TypedQuery<Seriado> query = entityManager
+                .createQuery("SELECT s FROM Seriado s where s.id =:id", Seriado.class);
+        return query.setParameter("id", id).getSingleResult();
     }
 }

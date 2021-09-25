@@ -4,9 +4,9 @@ import br.unisul.aula.model.Seriado;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class SeriadoDTO {
+    public static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private Long id;
     private String nome;
     private String descricao;
@@ -20,9 +20,18 @@ public class SeriadoDTO {
         this.dataInicio = converterLocalDate(seriado.getDataInicio());
     }
 
+    public Seriado converterParaSeriado() {
+        Seriado seriado = new Seriado();
+        seriado.setId(this.getId());
+        seriado.setNome(this.nome);
+        seriado.setDescricao(this.descricao);
+        LocalDate objetoData = LocalDate.parse(this.dataInicio, FORMATO);
+        seriado.setDataInicio(objetoData);
+        return seriado;
+    }
+
     private String converterLocalDate(LocalDate date){
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return date.format(formato);
+        return date.format(FORMATO);
     }
 
     public SeriadoDTO() {
@@ -58,5 +67,15 @@ public class SeriadoDTO {
 
     public void setDataInicio(String dataInicio) {
         this.dataInicio = dataInicio;
+    }
+
+    @Override
+    public String toString() {
+        return "SeriadoDTO{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", dataInicio='" + dataInicio + '\'' +
+                '}';
     }
 }

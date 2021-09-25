@@ -60,4 +60,5 @@ public class Seriado {
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
+
 }

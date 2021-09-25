@@ -3,6 +3,7 @@ package br.unisul.aula.banco;
 import br.unisul.aula.model.Temporada;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class TemporadaImpl implements Banco<Temporada> {
@@ -15,9 +16,10 @@ public class TemporadaImpl implements Banco<Temporada> {
     }
 
     @Override
-    public void remove(Temporada temporada) {
+    public void remove(Long id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         entityManager.getTransaction().begin();
+        Temporada temporada = findById(id);
         entityManager.remove(temporada);
         entityManager.getTransaction().commit();
     }
@@ -43,5 +45,15 @@ public class TemporadaImpl implements Banco<Temporada> {
     public Temporada findById(Long id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         return entityManager.getReference(Temporada.class, id);
+    }
+
+    public Temporada buscaPorNumeroESeriado(Integer numero, Long idSeriado){
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        TypedQuery<Temporada> query = entityManager
+                .createQuery("SELECT t FROM Temporada t where t.numero=:numero and t.seriado.id=:seriado",
+                        Temporada.class);
+        Temporada temporada = query.setParameter("numero", numero)
+                .setParameter("seriado", idSeriado).getSingleResult();
+        return temporada;
     }
 }

@@ -16,9 +16,10 @@ public class EpisodioImpl implements Banco<Episodio> {
     }
 
     @Override
-    public void remove(Episodio episodio) {
+    public void remove(Long id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         entityManager.getTransaction().begin();
+        Episodio episodio = findById(id);
         entityManager.remove(episodio);
         entityManager.getTransaction().commit();
     }
